@@ -19,13 +19,15 @@ Audio Files Directory
 
     - Example audio files of various formats for local dev/testing
 
-CI/CD Directory
+.github Directory
 
-    - github-actions.yml
-        - GitHub Actions Workflow 
-            - Build & Push Images
-    - test-script.sh
-        - Example automated test
+    workflows Directory
+
+        - github-actions.yml
+            - GitHub Actions Workflow 
+                - Build & Push Images
+        - test-script.sh
+            - Example automated test
 
 Monitoring Directory
 
