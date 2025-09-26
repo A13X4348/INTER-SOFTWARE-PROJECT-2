@@ -19,6 +19,7 @@ def home():
 # Serve audio files
 @app.route("/audio/<filename>")
 def get_audio(filename):
+    
     try:
         return send_from_directory(AUDIO_DIR, filename)
     except FileNotFoundError:
