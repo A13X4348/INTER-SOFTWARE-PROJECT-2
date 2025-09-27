@@ -1,0 +1,23 @@
+# Specifies the Docker compose file's format version
+version: '3.8'
+
+services:
+  origin:
+    build: ./origin
+    ports:
+      - "5000:5000"
+  
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  edge1:
+    build: ./edge
+    ports:
+      - "5001:5001"
+    
+    depends_on:
+      origin:
+        condition: service_healthy

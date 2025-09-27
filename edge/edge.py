@@ -3,7 +3,7 @@ from flask import Flask, Response
 
 app = Flask(__name__)
 
-ORIGIN_SERVER_URL = "http://127.0.0.1:5000"
+ORIGIN_SERVER_URL = "http://origin:5000"
 cache = {}
 
 @app.route("/audio/<filename>")
@@ -29,4 +29,4 @@ def get_audio(filename):
         return f"Error connecting to origin server: {e}", 502
     
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
