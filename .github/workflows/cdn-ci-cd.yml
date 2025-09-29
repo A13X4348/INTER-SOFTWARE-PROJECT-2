@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+      - test
+      - feature/edge-server
   pull_request:
     branches:
       - main
+      - test
+      - feature/edge-server
 
 jobs:
   build-test:
