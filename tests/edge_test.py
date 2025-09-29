@@ -6,6 +6,7 @@ EDGE2_SERVER_URL = "http://0.0.0.0:5002"
 
 TEST_FILENAME = "6-7.mp3"
 
+
 def test_caching():
     edge1url = f"{EDGE1_SERVER_URL}/audio/{TEST_FILENAME}"
     start_time_miss = time.time()
