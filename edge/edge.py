@@ -1,7 +1,15 @@
 import requests
 from flask import Flask, Response
+from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_client import Counter
 
 app = Flask(__name__)
+
+metrics = PrometheusMetrics(app)
+
+# Custom metrics
+cache_hits = Counter("edge_cache_hits_total", "Total cache hits")
+cache_misses = Counter("edge_cache_misses_total", "Total cache misses")
 
 ORIGIN_SERVER_URL = "http://origin:5000"
 cache = {}
@@ -9,9 +17,11 @@ cache = {}
 @app.route("/audio/<filename>")
 def get_audio(filename):
     if filename in cache:
+        cache_hits.inc()
         print (f"Cache HIT for {filename}")
         return Response(cache[filename], content_type='audio/mpeg')
-    
+
+    cache_misses.inc()
     print(f"Cache MISS for {filename}")
     origin_url = f"{ORIGIN_SERVER_URL}/audio/{filename}"
 
@@ -29,4 +39,4 @@ def get_audio(filename):
         return f"Error connecting to origin server: {e}", 502
     
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
