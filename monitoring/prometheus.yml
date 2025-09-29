@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "origin"
+    static_configs:
+      - targets: ["origin:5000"]
+
+  - job_name: "edge"
+    static_configs:
+      - targets: ["edge1:5000", "edge2:5000"]

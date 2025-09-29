@@ -1,6 +1,8 @@
 from flask import Flask, send_from_directory, jsonify
 import os
 import requests
+from prometheus_flask_exporter import PrometheusMetrics
+
 
 EDGE_SERVERS = [
     "http://edge1:5001",  # hostname:port for edge 1
@@ -9,12 +11,16 @@ EDGE_SERVERS = [
 
 app = Flask(__name__)
 
+metrics = PrometheusMetrics(app, group_by='endpoint')
+
 # Path to audio files
 AUDIO_DIR = os.path.join(os.path.dirname(__file__), "audio_files")
+
 
 @app.route("/")
 def home():
     return jsonify({"message": "Origin server is running"}), 200
+
 
 # Serve audio files
 @app.route("/audio/<filename>")
@@ -23,6 +29,7 @@ def get_audio(filename):
         return send_from_directory(AUDIO_DIR, filename)
     except FileNotFoundError:
         return jsonify({"error": "File not found"}), 404
+
 
 # Notify edges about updates
 @app.route("/update/<filename>", methods=["POST"])
@@ -41,5 +48,6 @@ def update_file(filename):
         "edge_responses": responses
     }), 200
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
