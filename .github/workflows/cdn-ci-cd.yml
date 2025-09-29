@@ -14,8 +14,8 @@ jobs:
 
     services:
       docker:
-        image: docker:20.10.16-dind
-        privileged: true
+        image: docker:24
+        options: --privileged
 
     steps:
       # 1. Checkout repository
